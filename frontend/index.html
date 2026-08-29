@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="description"
+        content="ASCII Lab transforms images, videos, and camera input into interactive ASCII art."
+    >
+
+    <meta
+        name="theme-color"
+        content="#0a0a0a"
+    >
+
+    <meta name="color-scheme" content="dark">
+
+    <title>ASCII Lab — Interactive ASCII Visual Studio</title>
+
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Application styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Demo status banner */
+        .demo-banner {
+            position: relative;
+            width: 100%;
+            padding: 8px 16px;
+            background: #3a2a00;
+            color: #ffcc66;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-align: center;
+            border-bottom: 1px solid #5a4400;
+            letter-spacing: 0.02em;
+            z-index: 1000;
+        }
+        .demo-banner strong {
+            color: #ffe08a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Demo status notice -->
+    <div class="demo-banner" role="status">
+        <strong>Demo build</strong> — ASCII Lab is under active development. New features are being added regularly and you may encounter bugs or incomplete functionality.
+    </div>
+
+    <!-- =========================================================
+         APPLICATION
+         ========================================================= -->
+
+    <div id="app" class="app">
+
+        <!-- =====================================================
+             LANDING VIEW
+             ===================================================== -->
+
+        <section
+            id="landingView"
+            class="view landing-view"
+            aria-labelledby="heroTitle"
+        >
+
+            <!-- Navigation -->
+            <header class="top-nav">
+
+                <a
+                    href="#"
+                    class="nav-brand"
+                    aria-label="ASCII Lab home"
+                    onclick="showLanding(); return false;"
+                >
+                    <span class="logo-icon" aria-hidden="true">◼</span>
+                    <span class="logo-text">ASCII Lab</span>
+                </a>
+
+                <nav
+                    class="nav-actions"
+                    aria-label="Primary navigation"
+                >
+                    <button
+                        type="button"
+                        class="btn btn-ghost"
+                        onclick="showEditor()"
+                    >
+                        Editor
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="triggerUpload()"
+                    >
+                        Get Started
+                    </button>
+                </nav>
+
+            </header>
+
+
+            <!-- Hero -->
+            <main class="landing-main">
+
+                <section class="hero-content">
+
+                    <div class="hero-eyebrow" aria-label="Product category">
+                        <span class="status-dot" aria-hidden="true"></span>
+                        Interactive ASCII Studio
+                    </div>
+
+                    <h1
+                        id="heroTitle"
+                        class="hero-title"
+                    >
+                        <span class="line">ART. CODE.</span>
+                        <span class="line accent">ASCII.</span>
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        Transform images, video, and motion into
+                        expressive ASCII art — with real-time controls,
+                        effects, and rendering modes.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-large btn-primary"
+                            onclick="triggerUpload()"
+                        >
+                            <span aria-hidden="true">[+]</span>
+                            Upload Image
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-large btn-ghost"
+                            onclick="showEditor()"
+                        >
+                            Open Editor
+                        </button>
+
+                    </div>
+
+                    <div class="hero-features" aria-label="Features">
+
+                        <span class="hero-feature">
+                            <span aria-hidden="true">◆</span>
+                            Image
+                        </span>
+
+                        <span class="hero-feature">
+                            <span aria-hidden="true">◆</span>
+                            Video
+                        </span>
+
+                        <span class="hero-feature">
+                            <span aria-hidden="true">◆</span>
+                            Webcam
+                        </span>
+
+                        <span class="hero-feature">
+                            <span aria-hidden="true">◆</span>
+                            Effects
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Hero ASCII preview -->
+                <section
+                    class="hero-preview"
+                    aria-label="ASCII preview demonstration"
+                >
+
+                    <div class="preview-frame">
+
+                        <div class="preview-frame-header">
+                            <div class="window-dots" aria-hidden="true">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <span class="preview-frame-title">
+                                ascii_preview
+                            </span>
+
+                            <span class="preview-frame-status">
+                                LIVE
+                            </span>
+                        </div>
+
+                        <div
+                            class="ascii-demo"
+                            id="heroAscii"
+                            aria-label="Animated ASCII demonstration"
+                        ></div>
+
+                        <div class="demo-footer">
+                            <span class="demo-label">
+                                Drop an image to begin
+                            </span>
+
+                            <span class="demo-resolution">
+                                120 × 64
+                            </span>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </main>
+
+
+            <!-- Landing footer -->
+            <footer class="landing-footer">
+
+                <span>
+                    Python-powered rendering engine
+                </span>
+
+                <span aria-hidden="true">·</span>
+
+                <span>
+                    Built for creators &amp; developers
+                </span>
+
+                <span aria-hidden="true">·</span>
+
+                <span>
+                    Demo version — continuously improving, bugs may be present
+                </span>
+
+            </footer>
+
+        </section>
+
+
+        <!-- =====================================================
+             EDITOR VIEW
+             ===================================================== -->
+
+        <section
+            id="editorView"
+            class="view editor-view hidden"
+            aria-label="ASCII editor"
+        >
+
+            <!-- Editor Navigation -->
+            <header class="top-nav editor-nav">
+
+                <button
+                    type="button"
+                    class="nav-brand nav-brand-button"
+                    onclick="showLanding()"
+                    aria-label="Return to ASCII Lab home"
+                >
+                    <span class="logo-icon" aria-hidden="true">◼</span>
+                    <span class="logo-text">ASCII Lab</span>
+                </button>
+
+
+                <div
+                    class="nav-center"
+                    aria-live="polite"
+                >
+                    <span
+                        id="fileName"
+                        class="file-name"
+                    >
+                        No image selected
+                    </span>
+                </div>
+
+
+                <div class="nav-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-ghost"
+                        onclick="triggerUpload()"
+                    >
+                        <span aria-hidden="true">+</span>
+                        Upload
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="exportBtn"
+                    >
+                        Export
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 EDITOR LAYOUT
+                 ================================================= -->
+
+            <div class="editor-layout">
+
+
+                <!-- =================================================
+                     LEFT SIDEBAR — MEDIA
+                     ================================================= -->
+
+                <aside
+                    class="sidebar left-sidebar"
+                    aria-label="Media library"
+                >
+
+                    <div class="panel-header">
+
+                        <span>Media</span>
+
+                        <span class="panel-badge">
+                            IMAGE
+                        </span>
+
+                    </div>
+
+
+                    <div
+        class="upload-zone"
+        id="dropZone"
+        role="button"
+        tabindex="0"
+        aria-label="Upload media"
+    >
+
+        <div class="upload-prompt">
+
+            <div
+                class="upload-icon"
+                aria-hidden="true"
+            >
+                ↑
+            </div>
+
+            <p class="upload-title">
+                Drop image here
+            </p>
+
+            <p class="upload-hint">
+                or click to browse
+            </p>
+
+            <span class="upload-formats">
+                JPG · PNG · WEBP
+            </span>
+
+        </div>
+
+        <input
+            type="file"
+            id="fileInput"
+            accept="image/jpeg,image/png,image/webp"
+            hidden
+            aria-label="Choose a media file"
+        >
+
+    </div>
+
+
+                    <!-- Media modes -->
+                    <div class="media-modes">
+
+                        <button
+                            type="button"
+                            class="media-mode active"
+                            data-media="image"
+                            aria-label="Image mode"
+                        >
+                            <span aria-hidden="true">▧</span>
+                            <span>Image</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="media-mode"
+                            data-media="video"
+                            aria-label="Video mode"
+                        >
+                            <span aria-hidden="true">▶</span>
+                            <span>Video</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="media-mode"
+                            data-media="webcam"
+                            aria-label="Webcam mode"
+                        >
+                            <span aria-hidden="true">◉</span>
+                            <span>Webcam</span>
+                        </button>
+
+                    </div>
+
+
+                    <!-- Uploaded images -->
+                    <div
+                        class="gallery-section"
+                        aria-label="Uploaded images"
+                    >
+
+                        <div class="gallery-header">
+                            <span>Recent</span>
+                            <span id="galleryCount">0</span>
+                        </div>
+
+                        <div
+                            class="gallery-grid"
+                            id="galleryGrid"
+                        ></div>
+
+                    </div>
+
+                </aside>
+
+
+                <!-- =================================================
+                     CENTER — PREVIEW
+                     ================================================= -->
+
+                <main
+                    class="preview-area"
+                    aria-label="ASCII preview"
+                >
+
+                    <!-- Preview toolbar -->
+                    <div class="preview-toolbar">
+
+                        <div class="preview-info">
+
+                            <span
+                                id="previewDims"
+                                class="preview-dims"
+                                aria-label="Preview dimensions"
+                            >
+                                —
+                            </span>
+
+                            <span
+                                class="preview-divider"
+                                aria-hidden="true"
+                            >
+                                /
+                            </span>
+
+                            <span
+                                id="previewMode"
+                                class="preview-mode"
+                            >
+                                Density
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="preview-actions"
+                            aria-label="Preview controls"
+                        >
+
+                            <button
+                                type="button"
+                                class="btn btn-icon"
+                                id="copyBtn"
+                                title="Copy ASCII"
+                                aria-label="Copy ASCII to clipboard"
+                            >
+                                📋
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-icon"
+                                id="zoomOut"
+                                title="Zoom out"
+                                aria-label="Zoom out"
+                            >
+                                −
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-icon"
+                                id="zoomIn"
+                                title="Zoom in"
+                                aria-label="Zoom in"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+         VIDEO CONTROLS (shown only in video mode)
+         ================================================= -->
+
+    <div
+        id="videoControls"
+        class="video-controls hidden"
+        aria-label="Video controls"
+    >
+
+        <button
+            type="button"
+            class="btn btn-ghost"
+            id="videoPlayBtn"
+        >
+            Play
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-ghost"
+            id="videoStopBtn"
+        >
+            Stop
+        </button>
+
+        <input
+            type="range"
+            id="videoProgress"
+            min="0"
+            max="0"
+            value="0"
+            step="1"
+            class="video-progress"
+            aria-label="Video position"
+        >
+
+        <span
+            id="videoTime"
+            class="video-time"
+        >
+            0.0s
+        </span>
+
+    </div>
+                    <!-- =================================================
+         WEBCAM CONTAINER (shown only in webcam mode)
+         ================================================= -->
+
+                    <div
+                        id="webcamContainer"
+                        class="webcam-container hidden"
+                        aria-label="Webcam interface"
+                    ></div>
+
+                    <!-- Preview container -->
+                    <div
+                        class="preview-container"
+                        id="previewContainer"
+                    >
+
+                        <pre
+                            id="asciiOutput"
+                            class="ascii-output"
+                            aria-label="Generated ASCII art"
+                            tabindex="0"
+                        ></pre>
+
+
+                        <!-- Empty state -->
+                        <div
+                            id="emptyState"
+                            class="empty-state"
+                        >
+
+                            <div
+                                class="empty-icon"
+                                aria-hidden="true"
+                            >
+                                ◨
+                            </div>
+
+                            <h2>
+                                Your canvas is empty
+                            </h2>
+
+                            <p>
+                                Upload an image to generate ASCII art.
+                            </p>
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="triggerUpload()"
+                            >
+                                Choose Image
+                            </button>
+
+                        </div>
+
+
+                        <!-- Loading state -->
+                        <div
+                            id="loadingState"
+                            class="loading-state hidden"
+                            role="status"
+                            aria-live="polite"
+                        >
+
+                            <div
+                                class="spinner"
+                                aria-hidden="true"
+                            ></div>
+
+                            <p>Rendering...</p>
+
+                            <span>
+                                Processing your image
+                            </span>
+
+                        </div>
+
+
+                        <!-- Error state -->
+                        <div
+                            id="errorState"
+                            class="error-state hidden"
+                            role="alert"
+                        >
+
+                            <div
+                                class="error-icon"
+                                aria-hidden="true"
+                            >
+                                !
+                            </div>
+
+                            <h2>
+                                Something went wrong
+                            </h2>
+
+                            <p id="errorMessage">
+                                Unable to render this file.
+                            </p>
+
+                            <button
+                                type="button"
+                                class="btn btn-ghost"
+                                onclick="triggerUpload()"
+                            >
+                                Try Another File
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Preview status bar -->
+                    <div class="preview-statusbar">
+
+                        <div class="status-item">
+
+                            <span
+                                class="status-indicator"
+                                aria-hidden="true"
+                            ></span>
+
+                            <span>
+                                Renderer ready
+                            </span>
+
+                        </div>
+
+                        <div class="status-item">
+
+                            <span>
+                                FPS
+                            </span>
+
+                            <strong id="fpsValue">
+                                —
+                            </strong>
+
+                        </div>
+
+                        <div class="status-item">
+
+                            <span>
+                                Zoom
+                            </span>
+
+                            <strong id="zoomValue">
+                                100%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </main>
+
+
+                <!-- =================================================
+                     RIGHT SIDEBAR — CONTROLS
+                     ================================================= -->
+
+                <aside
+                    class="sidebar right-sidebar"
+                    aria-label="Rendering controls"
+                >
+
+                    <div class="panel-header">
+
+                        <span>Control Panel</span>
+
+                        <span
+                            class="panel-badge"
+                            id="renderStatus"
+                        >
+                            READY
+                        </span>
+
+                    </div>
+
+
+                    <!-- Rendering Mode -->
+                    <section class="control-section">
+
+                        <label class="control-label">
+                            Rendering Mode
+                        </label>
+
+                        <div
+                            class="mode-selector"
+                            id="modeSelector"
+                            role="group"
+                            aria-label="Rendering mode"
+                        >
+
+                            <button
+                                type="button"
+                                class="mode-btn active"
+                                data-mode="density"
+                            >
+                                Density
+                            </button>
+
+                            <button
+                                type="button"
+                                class="mode-btn"
+                                data-mode="blocks"
+                            >
+                                Blocks
+                            </button>
+
+                            <button
+                                type="button"
+                                class="mode-btn"
+                                data-mode="binary"
+                            >
+                                Binary
+                            </button>
+
+                            <button
+                                type="button"
+                                class="mode-btn"
+                                data-mode="edge"
+                            >
+                                Edge
+                            </button>
+
+                            <button
+                                type="button"
+                                class="mode-btn"
+                                data-mode="custom"
+                            >
+                                Custom
+                            </button>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- Character Set -->
+                    <section class="control-section">
+
+                        <label
+                            for="charsetSelect"
+                            class="control-label"
+                        >
+                            Character Set
+                        </label>
+
+                        <select
+                            id="charsetSelect"
+                            class="control-select"
+                        >
+
+                            <option value="STANDARD">
+                                Standard — @%#*+=-:.
+                            </option>
+
+                            <option value="DENSE">
+                                Dense — @#%*+=-:.
+                            </option>
+
+                            <option value="MINIMAL">
+                                Minimal — #.
+                            </option>
+
+                            <option value="BLOCKS">
+                                Blocks — █▓▒░
+                            </option>
+
+                            <option value="BINARY">
+                                Binary — 01
+                            </option>
+
+                            <option value="TERMINAL">
+                                Terminal — @#S%?*+;:
+                            </option>
+
+                            <option value="EDGE">
+                                Edge — /\|-_+*
+                            </option>
+
+                            <option value="CUSTOM">
+                                Custom...
+                            </option>
+
+                        </select>
+
+                        <input
+                            type="text"
+                            id="customCharset"
+                            class="control-input hidden"
+                            placeholder="Darkest → lightest"
+                            aria-label="Custom character set"
+                            maxlength="32"
+                            autocomplete="off"
+                        >
+
+                    </section>
+
+
+                    <!-- Resolution -->
+                    <section class="control-section">
+
+                        <div class="slider-header">
+
+                            <label
+                                for="widthRange"
+                                class="control-label"
+                            >
+                                Width
+                            </label>
+
+                            <output
+                                class="slider-value"
+                                id="widthVal"
+                                for="widthRange"
+                            >
+                                80
+                            </output>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="widthRange"
+                            min="20"
+                            max="240"
+                            value="80"
+                            step="10"
+                            class="slider"
+                            aria-label="ASCII width"
+                        >
+
+                        <div class="slider-scale">
+                            <span>20</span>
+                            <span>240</span>
+                        </div>
+
+                    </section>
+
+
+                    <!-- Brightness -->
+                    <section class="control-section">
+
+                        <div class="slider-header">
+
+                            <label
+                                for="brightnessRange"
+                                class="control-label"
+                            >
+                                Brightness
+                            </label>
+
+                            <output
+                                class="slider-value"
+                                id="brightnessVal"
+                                for="brightnessRange"
+                            >
+                                1.0
+                            </output>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="brightnessRange"
+                            min="0.1"
+                            max="3.0"
+                            value="1.0"
+                            step="0.1"
+                            class="slider"
+                            aria-label="Brightness"
+                        >
+
+                    </section>
+
+
+                    <!-- Contrast -->
+                    <section class="control-section">
+
+                        <div class="slider-header">
+
+                            <label
+                                for="contrastRange"
+                                class="control-label"
+                            >
+                                Contrast
+                            </label>
+
+                            <output
+                                class="slider-value"
+                                id="contrastVal"
+                                for="contrastRange"
+                            >
+                                1.0
+                            </output>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="contrastRange"
+                            min="0.1"
+                            max="3.0"
+                            value="1.0"
+                            step="0.1"
+                            class="slider"
+                            aria-label="Contrast"
+                        >
+
+                    </section>
+
+
+                    <!-- Gamma -->
+                    <section class="control-section">
+
+                        <div class="slider-header">
+
+                            <label
+                                for="gammaRange"
+                                class="control-label"
+                            >
+                                Gamma
+                            </label>
+
+                            <output
+                                class="slider-value"
+                                id="gammaVal"
+                                for="gammaRange"
+                            >
+                                1.0
+                            </output>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            id="gammaRange"
+                            min="0.1"
+                            max="3.0"
+                            value="1.0"
+                            step="0.1"
+                            class="slider"
+                            aria-label="Gamma correction"
+                        >
+
+                    </section>
+
+
+                    <!-- Dithering -->
+                    <section class="control-section">
+
+                        <label
+                            for="ditherSelect"
+                            class="control-label"
+                        >
+                            Dithering
+                        </label>
+
+                        <select
+                            id="ditherSelect"
+                            class="control-select"
+                        >
+
+                            <option value="none">
+                                None
+                            </option>
+
+                            <option value="floyd-steinberg">
+                                Floyd-Steinberg
+                            </option>
+
+                            <option value="atkinson">
+                                Atkinson
+                            </option>
+
+                            <option value="ordered">
+                                Ordered
+                            </option>
+
+                        </select>
+
+                    </section>
+
+
+                    <!-- Color -->
+                    <section class="control-section">
+
+                        <label
+                            for="colorSelect"
+                            class="control-label"
+                        >
+                            Color Mode
+                        </label>
+
+                        <select
+                            id="colorSelect"
+                            class="control-select"
+                        >
+
+                            <option value="monochrome">
+                                Monochrome
+                            </option>
+
+                            <option value="original">
+                                Original Color
+                            </option>
+
+                        </select>
+
+                    </section>
+
+
+                    <!-- Invert -->
+                    <section class="control-section toggles">
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                id="invertCheck"
+                            >
+
+                            <span
+                                class="toggle-slider"
+                                aria-hidden="true"
+                            ></span>
+
+                            <span class="toggle-label">
+                                Invert characters
+                            </span>
+
+                        </label>
+
+                    </section>
+
+
+                    <!-- Statistics -->
+                    <section
+                        class="control-section stats-section"
+                        aria-label="Rendering statistics"
+                    >
+
+                        <div class="stats-header">
+                            <span>Statistics</span>
+                        </div>
+
+                        <div class="stat-row">
+
+                            <span class="stat-label">
+                                Render Time
+                            </span>
+
+                            <span
+                                class="stat-value"
+                                id="statTime"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+                        <div class="stat-row">
+
+                            <span class="stat-label">
+                                Dimensions
+                            </span>
+
+                            <span
+                                class="stat-value"
+                                id="statDims"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+                        <div class="stat-row">
+
+                            <span class="stat-label">
+                                Characters
+                            </span>
+
+                            <span
+                                class="stat-value"
+                                id="statChars"
+                            >
+                                —
+                            </span>
+
+                        </div>
+
+                    </section>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- =========================================================
+         EXPORT MODAL
+         ========================================================= -->
+
+    <div
+        id="exportModal"
+        class="modal hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="exportModalTitle"
+    >
+
+        <div
+            class="modal-backdrop"
+            onclick="closeExport()"
+        ></div>
+
+        <div class="modal-content">
+
+            <header class="modal-header">
+
+                <h2 id="exportModalTitle">
+                    Export ASCII
+                </h2>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    onclick="closeExport()"
+                    aria-label="Close export dialog"
+                >
+                    ×
+                </button>
+
+            </header>
+
+
+            <div class="modal-body">
+
+                <div class="export-options">
+
+                    <button
+                        type="button"
+                        class="export-option"
+                        id="exportTxt"
+                    >
+
+                        <div
+                            class="export-icon"
+                            aria-hidden="true"
+                        >
+                            ↓
+                        </div>
+
+                        <div class="export-label">
+                            Plain Text
+                        </div>
+
+                        <div class="export-desc">
+                            Download .txt file
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="export-option"
+                        id="exportCopy"
+                    >
+
+                        <div
+                            class="export-icon"
+                            aria-hidden="true"
+                        >
+                            ⧉
+                        </div>
+
+                        <div class="export-label">
+                            Copy
+                        </div>
+
+                        <div class="export-desc">
+                            Copy to clipboard
+                        </div>
+
+                    </button>
+
+                </div>
+
+
+                <div class="export-preview">
+
+                    <div class="export-preview-header">
+                        Preview
+                    </div>
+
+                    <pre id="exportPreview"></pre>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         TOAST / NOTIFICATIONS
+         ========================================================= -->
+
+    <div
+        id="toast"
+        class="toast hidden"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+    ></div>
+
+
+    <!-- =========================================================
+         NOSCRIPT
+         ========================================================= -->
+
+    <noscript>
+
+        <div class="noscript-message">
+
+            <h1>ASCII Lab requires JavaScript</h1>
+
+            <p>
+                Please enable JavaScript in your browser to use
+                the interactive ASCII rendering studio.
+            </p>
+
+        </div>
+
+    </noscript>
+
+
+    <!-- Application JavaScript -->
+    <script src="app.js" defer></script>
+</body>
+</html>

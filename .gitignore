@@ -1,0 +1,112 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+.env
+.env.*
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ==============================
+# Testing
+# ==============================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ==============================
+# IDE / Editors
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ==============================
+# OS
+# ==============================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ==============================
+# Project runtime files
+# ==============================
+uploads/*
+outputs/*
+tmp/
+temp/
+
+# Keep directories but ignore their contents
+!uploads/.gitkeep
+!outputs/.gitkeep
+
+# ==============================
+# Media files
+# ==============================
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+*.mpeg
+*.mpg
+*.wmv
+
+# Images generated/uploaded during runtime
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.webp
+
+# ==============================
+# Logs
+# ==============================
+*.log
+logs/
+
+# ==============================
+# Environment / secrets
+# ==============================
+*.secret
+secrets/
+.env
+.env.local
+.env.development
+.env.production
+
+# ==============================
+# Jupyter
+# ==============================
+.ipynb_checkpoints/
+
+# ==============================
+# Docker
+# ==============================
+docker-compose.override.yml
+
+# ==============================
+# Misc
+# ==============================
+*.bak
+*.tmp
+*.cache
