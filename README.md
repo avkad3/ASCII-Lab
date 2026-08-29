@@ -15,13 +15,4 @@ Python-based interactive ASCII rendering platform.
 - **5 Interactive Effects** — Gravity, Vortex, Ripple, Explosion, Fire
 - **Export** — Copy to clipboard or download as .txt
 
-## Quick Start
-
-```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Run the application
-uvicorn app.main:app --reload
-
-# 3. Open http://localhost:8000
+https://ascii-lab.onrender.com/
